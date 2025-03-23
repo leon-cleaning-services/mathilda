@@ -1,11 +1,14 @@
-package mathilda.cli
+package mathilda
 
-import mathilda.builder
+import mathilda.rule.RemoveRegexRule
+import mathilda.rule.RemoveRule
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
-object Main {
+class MathildaBuilderTest {
 
-    fun run(args: Array<String>) {
-        val json = """
+    private val json = """
             {
                 "version":1,
                 "rules": {
@@ -21,9 +24,12 @@ object Main {
             }
         """.trimIndent()
 
+    @Test
+    fun shouldParseJson() {
         val mathilda = builder(json).build()
-        mathilda.clean("")
 
-        println("${mathilda.rules.size}")
+        assertEquals(mathilda.rules.size, 2)
+        assertIs<RemoveRule>(mathilda.rules[0])
+        assertIs<RemoveRegexRule>(mathilda.rules[1])
     }
 }
