@@ -7,29 +7,13 @@ import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
-class MathildaBuilderTest {
-
-    private val json = """
-            {
-                "version":1,
-                "rules": {
-                    "google": {
-                        "type": "remove",
-                        "domains": ["google.com", "google.de"],
-                        "parameters": ["utm_","ga_"],
-                    },
-                    "google2": {
-                        "type":"remove_regex",
-                        "domain_regex": "google\\.com",
-                        "regex": "regex",
-                    }
-                }
-            }
-        """.trimIndent()
+class JvmMathildaBuilderTest {
 
     @Test
-    fun shouldParseJson() {
-        val mathilda = builder(json).build()
+    fun shouldParseJsonFile() {
+        val stream = javaClass.getResourceAsStream("/test.json")
+            ?: throw IllegalArgumentException("File test.json not found")
+        val mathilda = builder(stream).build()
 
         assertEquals(mathilda.rules.size, 2)
         assertContains(

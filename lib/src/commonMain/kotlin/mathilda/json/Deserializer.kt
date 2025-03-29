@@ -6,7 +6,7 @@ import kotlinx.serialization.json.Json
 internal object Deserializer {
 
     @OptIn(ExperimentalSerializationApi::class)
-    private val json = Json {
+    internal val json = Json {
         allowComments = true
         allowTrailingComma = true
     }

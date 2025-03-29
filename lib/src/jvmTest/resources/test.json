@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "rules": {
+    "google": {
+      "type": "remove",
+      "domains": [
+        "google.com",
+        "google.de"
+      ],
+      "parameters": [
+        "utm_",
+        "ga_"
+      ]
+    },
+    "google2": {
+      "type": "remove_regex",
+      "domain_regex": "google\\.com",
+      "regex": "regex"
+    }
+  }
+}

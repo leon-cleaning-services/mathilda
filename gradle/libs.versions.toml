@@ -12,4 +12,5 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-android-library = { id = "com.android.library", version = "8.9.0" }
+android-library = { id = "com.android.library", version = "8.9.1" }
+test-logger = { id = "com.adarshr.test-logger", version = "4.0.0" }
