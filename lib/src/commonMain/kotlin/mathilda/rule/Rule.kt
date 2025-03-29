@@ -2,12 +2,14 @@ package mathilda.rule
 
 import kotlinx.collections.immutable.ImmutableList
 
+public typealias Id = String
+
 public sealed interface Rule {
 
     /**
      * Unique ID
      */
-    public val id: String
+    public val id: Id
 
     /**
      * Optional list of domains where the rule is applied to.
@@ -27,5 +29,5 @@ public sealed interface Rule {
      */
     public val domainRegex: String?
 
-    public operator fun invoke(input: String): String
+    public suspend operator fun invoke(input: String): String
 }

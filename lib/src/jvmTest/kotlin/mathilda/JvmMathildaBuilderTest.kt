@@ -16,6 +16,7 @@ class JvmMathildaBuilderTest {
         val mathilda = builder(stream).build()
 
         assertEquals(mathilda.rules.size, 2)
+        assertEquals(mathilda.enabledRules.size, 2)
         assertContains(
             mathilda.rules,
             RemoveRule(

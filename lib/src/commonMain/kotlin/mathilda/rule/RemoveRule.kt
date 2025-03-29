@@ -10,7 +10,7 @@ internal data class RemoveRule(
     private val parameters: ImmutableList<String>,
 ) : Rule {
 
-    override fun invoke(input: String): String {
+    override suspend fun invoke(input: String): String {
         TODO()
     }
 }

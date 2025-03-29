@@ -10,7 +10,7 @@ internal data class RemoveRegexRule(
     private val regex: String,
 ) : Rule {
 
-    override fun invoke(input: String): String {
+    override suspend fun invoke(input: String): String {
         TODO()
     }
 }
