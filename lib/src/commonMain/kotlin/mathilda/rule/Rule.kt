@@ -58,5 +58,5 @@ public sealed interface Rule {
     /**
      * Invokes rule on input string
      */
-    public suspend operator fun invoke(input: String): Result
+    public suspend operator fun invoke(url: String): Result
 }

@@ -48,4 +48,15 @@ internal sealed interface JsonRule {
         override val description: String? = null,
         val regex: String,
     ) : JsonRule
+
+    @Serializable
+    @SerialName("transform")
+    data class JsonTransformRule(
+        override val domains: List<String> = emptyList(),
+        override val domainRegex: String? = null,
+        override val description: String? = null,
+        val input: String,
+        val output: String? = null,
+        val decode: Boolean = false,
+    ) : JsonRule
 }

@@ -10,7 +10,7 @@ internal class ActionRule(
     private val action: suspend (String) -> String,
 ) : BaseRule() {
 
-    override suspend fun execute(input: String): String = action(input)
+    override suspend fun execute(url: String): String = action(url)
 }
 
 /**

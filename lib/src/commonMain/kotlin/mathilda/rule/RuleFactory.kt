@@ -4,6 +4,7 @@ import kotlinx.collections.immutable.toImmutableList
 import mathilda.json.JsonRule
 import mathilda.rule.impl.RemoveParamsRule
 import mathilda.rule.impl.RemoveRegexRule
+import mathilda.rule.impl.TransformRule
 
 internal object RuleFactory {
 
@@ -22,6 +23,15 @@ internal object RuleFactory {
             domains = rule.domains.toImmutableList(),
             domainRegex = rule.domainRegex?.toNullIfBlank(),
             regex = rule.regex,
+        )
+
+        is JsonRule.JsonTransformRule -> TransformRule(
+            id = id,
+            domains = rule.domains.toImmutableList(),
+            domainRegex = rule.domainRegex?.toNullIfBlank(),
+            input = rule.input,
+            output = rule.output?.toNullIfBlank(),
+            decode = rule.decode,
         )
     }
 }

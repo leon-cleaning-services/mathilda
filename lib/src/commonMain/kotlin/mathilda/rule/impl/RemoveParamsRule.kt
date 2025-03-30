@@ -11,8 +11,8 @@ internal data class RemoveParamsRule(
     private val parameters: ImmutableList<String>,
 ) : BaseRule() {
 
-    override suspend fun execute(input: String) =
-        parameters.fold(input) { curr, parameter ->
+    override suspend fun execute(url: String) =
+        parameters.fold(url) { curr, parameter ->
             val p = parameter
                 .replace("?", ".?")
                 .replace("*", ".+?")

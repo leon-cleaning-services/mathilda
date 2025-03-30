@@ -11,5 +11,5 @@ internal data class RemoveRegexRule(
     private val regex: String,
 ) : BaseRule() {
 
-    override suspend fun execute(input: String) = input.replace(Regex(regex), "")
+    override suspend fun execute(url: String) = url.replace(Regex(regex), "")
 }
