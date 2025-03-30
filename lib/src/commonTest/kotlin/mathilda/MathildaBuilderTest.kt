@@ -1,8 +1,8 @@
 package mathilda
 
 import kotlinx.collections.immutable.persistentListOf
-import mathilda.rule.RemoveRegexRule
-import mathilda.rule.RemoveRule
+import mathilda.rule.impl.RemoveParamsRule
+import mathilda.rule.impl.RemoveRegexRule
 import mathilda.rule.noOpRule
 import kotlin.test.Test
 import kotlin.test.assertContains
@@ -15,7 +15,7 @@ class MathildaBuilderTest {
                 "version":1,
                 "rules": {
                     "google": {
-                        "type": "remove",
+                        "type": "remove_params",
                         "domains": ["google.com", "google.de"],
                         "parameters": ["utm_","ga_"],
                     },
@@ -36,7 +36,7 @@ class MathildaBuilderTest {
         assertEquals(mathilda.enabledRules.size, 2)
         assertContains(
             mathilda.rules,
-            RemoveRule(
+            RemoveParamsRule(
                 id = "google",
                 domains = persistentListOf("google.com", "google.de"),
                 parameters = persistentListOf("utm_", "ga_")

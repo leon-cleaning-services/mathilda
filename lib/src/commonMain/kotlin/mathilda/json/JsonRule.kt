@@ -30,8 +30,8 @@ internal sealed interface JsonRule {
     val description: String?
 
     @Serializable
-    @SerialName("remove")
-    data class JsonRemoveRule(
+    @SerialName("remove_params")
+    data class JsonRemoveParamsRule(
         override val domains: List<String> = emptyList(),
         @SerialName("domain_regex")
         override val domainRegex: String? = null,

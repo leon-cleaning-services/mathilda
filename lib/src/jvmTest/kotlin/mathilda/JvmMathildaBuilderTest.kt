@@ -1,8 +1,8 @@
 package mathilda
 
+import jsonStream
 import kotlinx.collections.immutable.persistentListOf
-import mathilda.rule.RemoveRegexRule
-import mathilda.rule.RemoveRule
+import mathilda.rule.impl.RemoveParamsRule
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
@@ -11,26 +11,23 @@ class JvmMathildaBuilderTest {
 
     @Test
     fun shouldParseJsonFile() {
-        val stream = javaClass.getResourceAsStream("/test.json")
-            ?: throw IllegalArgumentException("File test.json not found")
-        val mathilda = builder(stream).build()
+        val mathilda = builder(jsonStream).build()
 
         assertEquals(mathilda.rules.size, 2)
         assertEquals(mathilda.enabledRules.size, 2)
         assertContains(
             mathilda.rules,
-            RemoveRule(
-                id = "google",
-                domains = persistentListOf("google.com", "google.de"),
-                parameters = persistentListOf("utm_", "ga_")
+            RemoveParamsRule(
+                id = "google_analytics",
+                parameters = persistentListOf("ga_*", "utm_*", "gclid")
             )
         )
         assertContains(
             mathilda.rules,
-            RemoveRegexRule(
-                id = "google2",
-                domainRegex = "google\\.com",
-                regex = "regex",
+            RemoveParamsRule(
+                id = "google_play_store",
+                domains = persistentListOf("store.google.com"),
+                parameters = persistentListOf("hl", "selections"),
             )
         )
     }

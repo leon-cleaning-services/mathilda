@@ -6,6 +6,32 @@ public typealias Id = String
 
 public sealed interface Rule {
 
+    public sealed interface Result {
+
+        public val value: String
+
+        /**
+         * The rule was applied and modified the input value
+         */
+        public data class Success(
+            override val value: String,
+        ) : Result
+
+        /**
+         * The rule was applied but didn't modify the input value
+         */
+        public data class Unmodified(
+            override val value: String,
+        ) : Result
+
+        /**
+         * Based on domain parameters the rule was not applied
+         */
+        public data class NoMatch(
+            override val value: String,
+        ) : Result
+    }
+
     /**
      * Unique ID
      */
@@ -29,5 +55,8 @@ public sealed interface Rule {
      */
     public val domainRegex: String?
 
-    public suspend operator fun invoke(input: String): String
+    /**
+     * Invokes rule on input string
+     */
+    public suspend operator fun invoke(input: String): Result
 }

@@ -8,9 +8,9 @@ internal class ActionRule(
     override val domains: ImmutableList<String> = persistentListOf(),
     override val domainRegex: String? = null,
     private val action: suspend (String) -> String,
-) : Rule {
+) : BaseRule() {
 
-    override suspend fun invoke(input: String): String = action(input)
+    override suspend fun execute(input: String): String = action(input)
 }
 
 /**

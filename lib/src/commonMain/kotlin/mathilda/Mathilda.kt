@@ -91,11 +91,11 @@ public class Mathilda private constructor(
 
     // TODO
     public suspend fun clean(input: String): Result<String> {
-        var state = input
+        var state = input.trim()
 
         enabledRules.forEach { rule ->
             try {
-                state = rule(state)
+                state = rule(state).value
             } catch (e: Throwable) {
                 return Result.failure(e)
             }
