@@ -6,6 +6,11 @@ public typealias Id = String
 
 public sealed interface Rule {
 
+    public data class Test(
+        val input: String,
+        val expected: String,
+    )
+
     public sealed interface Result {
 
         public val value: String
@@ -54,6 +59,13 @@ public sealed interface Rule {
      * The rule is applied to all domains when both `domains` and `domainRegex` are empty.
      */
     public val domainRegex: String?
+
+    /**
+     * Optional list of tests.
+     *
+     * When defined, all tests must pass or else Mathilda will fail at importing this rule.
+     */
+    public val tests: ImmutableList<Test>
 
     /**
      * Invokes rule on input string

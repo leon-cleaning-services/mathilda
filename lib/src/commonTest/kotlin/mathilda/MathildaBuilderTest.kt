@@ -64,9 +64,9 @@ class MathildaBuilderTest {
             .only("rule2")
             .build()
 
-        assertEquals(mathilda.rules.size, 3)
-        assertEquals(mathilda.enabledRules.size, 1)
-        assertEquals(mathilda.enabledRules.first().id, "rule2")
+        assertEquals(3, mathilda.rules.size)
+        assertEquals(1, mathilda.enabledRules.size)
+        assertEquals("rule2", mathilda.enabledRules.first().id)
     }
 
     @Test
@@ -82,8 +82,8 @@ class MathildaBuilderTest {
             .without("rule2")
             .build()
 
-        assertEquals(mathilda.rules.size, 3)
-        assertEquals(mathilda.enabledRules.size, 1)
-        assertEquals(mathilda.enabledRules.first().id, "rule3")
+        assertEquals(3, mathilda.rules.size)
+        assertEquals(1, mathilda.enabledRules.size)
+        assertEquals("rule3", mathilda.enabledRules.first().id)
     }
 }

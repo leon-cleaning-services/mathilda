@@ -7,6 +7,12 @@
         "ga_*",
         "utm_*",
         "gclid"
+      ],
+      "tests": [
+        {
+          "input": "https://www.example.com?ga_abc=123&utm_def=456&gclid=789",
+          "expected": "https://www.example.com"
+        }
       ]
     },
     "google_play_store": {
@@ -17,6 +23,12 @@
       ],
       "domains": [
         "store.google.com"
+      ],
+      "tests": [
+        {
+          "input": "https://store.google.com/gb/product/chromecast_google_tv?hl=en-GB&selections=eyJwcm9kdWN0RmFtaWx5IjoiWTJoeWIyMWxZMkZ6ZEY5bmIyOW5iR1ZmZEhZPSIsImhlcm9Qcm9kdWN0cyI6W1siY0hKa1h6YzRNekpmTXprMU1nPT0iLDEsbnVsbF1dfQ%3D%3D",
+          "expected": "https://store.google.com/gb/product/chromecast_google_tv"
+        }
       ]
     }
   }

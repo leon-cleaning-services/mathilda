@@ -22,7 +22,7 @@ object Main {
         """.trimIndent()
 
         val mathilda = builder(json).build()
-        mathilda.clean("")
+        //mathilda.clean("")
 
         println("${mathilda.rules.size}")
     }

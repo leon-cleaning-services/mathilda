@@ -4,11 +4,13 @@ import com.eygraber.uri.UriCodec
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import mathilda.rule.BaseRule
+import mathilda.rule.Rule
 
 internal data class TransformRule(
     override val id: String,
     override val domains: ImmutableList<String> = persistentListOf(),
     override val domainRegex: String? = null,
+    override val tests: ImmutableList<Rule.Test> = persistentListOf(),
     private val input: String,
     private val output: String? = null,
     private val decode: Boolean = false,

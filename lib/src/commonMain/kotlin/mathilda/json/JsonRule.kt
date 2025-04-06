@@ -6,6 +6,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal sealed interface JsonRule {
 
+    @Serializable
+    data class Test(
+        val input: String,
+        val expected: String,
+    )
+
     /**
      * Optional list of domains where the rule is applied to.
      * "https://" and "www." should be left out.
@@ -29,6 +35,13 @@ internal sealed interface JsonRule {
      */
     val description: String?
 
+    /**
+     * Optional list of tests.
+     *
+     * When defined, all tests must pass or else Mathilda will fail at importing this rule.
+     */
+    val tests: List<Test>
+
     @Serializable
     @SerialName("remove_params")
     data class JsonRemoveParamsRule(
@@ -36,6 +49,7 @@ internal sealed interface JsonRule {
         @SerialName("domain_regex")
         override val domainRegex: String? = null,
         override val description: String? = null,
+        override val tests: List<Test> = emptyList(),
         val parameters: List<String>,
     ) : JsonRule
 
@@ -46,6 +60,7 @@ internal sealed interface JsonRule {
         @SerialName("domain_regex")
         override val domainRegex: String? = null,
         override val description: String? = null,
+        override val tests: List<Test> = emptyList(),
         val regex: String,
     ) : JsonRule
 
@@ -55,6 +70,7 @@ internal sealed interface JsonRule {
         override val domains: List<String> = emptyList(),
         override val domainRegex: String? = null,
         override val description: String? = null,
+        override val tests: List<Test> = emptyList(),
         val input: String,
         val output: String? = null,
         val decode: Boolean = false,

@@ -1,5 +1,6 @@
 package mathilda.rule
 
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import mathilda.json.JsonRule
 import mathilda.rule.impl.RemoveParamsRule
@@ -15,6 +16,7 @@ internal object RuleFactory {
             id = id,
             domains = rule.domains.toImmutableList(),
             domainRegex = rule.domainRegex?.toNullIfBlank(),
+            tests = rule.tests.map(),
             parameters = rule.parameters.toImmutableList(),
         )
 
@@ -22,6 +24,7 @@ internal object RuleFactory {
             id = id,
             domains = rule.domains.toImmutableList(),
             domainRegex = rule.domainRegex?.toNullIfBlank(),
+            tests = rule.tests.map(),
             regex = rule.regex,
         )
 
@@ -29,11 +32,15 @@ internal object RuleFactory {
             id = id,
             domains = rule.domains.toImmutableList(),
             domainRegex = rule.domainRegex?.toNullIfBlank(),
+            tests = rule.tests.map(),
             input = rule.input,
             output = rule.output?.toNullIfBlank(),
             decode = rule.decode,
         )
     }
+
+    private fun List<JsonRule.Test>.map(): ImmutableList<Rule.Test> =
+        map { Rule.Test(input = it.input, expected = it.expected) }.toImmutableList()
 }
 
 private fun String?.toNullIfBlank(): String? =

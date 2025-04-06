@@ -7,6 +7,7 @@ internal class ActionRule(
     override val id: Id,
     override val domains: ImmutableList<String> = persistentListOf(),
     override val domainRegex: String? = null,
+    override val tests: ImmutableList<Rule.Test> = persistentListOf(),
     private val action: suspend (String) -> String,
 ) : BaseRule() {
 

@@ -37,3 +37,13 @@ android {
     compileSdk = 35
     namespace = "mathilda"
 }
+
+afterEvaluate {
+    tasks.register<Copy>("copyRules") {
+        from(project.projectDir)
+        into("${project.projectDir}/src/jvmTest/resources")
+        include("rules.json")
+    }
+
+    tasks.findByName("jvmTestProcessResources")?.dependsOn("copyRules")
+}
