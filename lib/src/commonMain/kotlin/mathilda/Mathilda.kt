@@ -47,12 +47,15 @@ public class Mathilda private constructor(
             .map { it.rule }
             .toImmutableSet()
 
+    /**
+     * @see [builder]
+     */
     public class Builder internal constructor(private var rules: Map<Id, RuleState>) {
 
         internal constructor(root: JsonRoot) : this(
             root.rules
                 .map(RuleFactory::fromJsonRule)
-                .associate { it.id to RuleState(it) }
+                .associate { (rule, enabled) -> rule.id to RuleState(rule, enabled) }
                 .toMutableMap()
         )
 
@@ -87,7 +90,17 @@ public class Mathilda private constructor(
         }
     }
 
+    /**
+     * Creates a new [Builder] based on this instance of [Mathilda]
+     */
     public fun newBuilder(): Builder = Builder(_rules)
+
+    /**
+     * Returns `true` when rule with [id] is enabled
+     *
+     * @throws NoSuchElementException
+     */
+    public fun isEnabled(id: String): Boolean = _rules.getValue(id).enabled
 
     // TODO
     public suspend fun clean(input: String): Result<String> {

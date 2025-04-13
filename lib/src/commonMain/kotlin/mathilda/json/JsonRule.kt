@@ -16,8 +16,8 @@ internal sealed interface JsonRule {
      * Optional list of domains where the rule is applied to.
      * "https://" and "www." should be left out.
      *
-     * If both `domains` and `domainRegex` are specified, they will be applied in an OR-fashion.
-     * The rule is applied to all domains when both `domains` and `domainRegex` are empty.
+     * If both [domains] and [domainRegex] are specified, they will be applied in an OR-fashion.
+     * The rule is applied to all domains when both [domains] and [domainRegex] are empty.
      */
     val domains: List<String>
 
@@ -25,8 +25,8 @@ internal sealed interface JsonRule {
      * Optional regular expression of domain(s) where the rule is applied to.
      * "https://" and "www." should be left out.
      *
-     * If both `domains` and `domainRegex` are specified, they will be applied in an OR-fashion.
-     * The rule is applied to all domains when both `domains` and `domainRegex` are empty.
+     * If both [domains] and [domainRegex] are specified, they will be applied in an OR-fashion.
+     * The rule is applied to all domains when both [domains] and [domainRegex] are empty.
      */
     val domainRegex: String?
 
@@ -34,6 +34,13 @@ internal sealed interface JsonRule {
      * Optional description of rule.
      */
     val description: String?
+
+    /**
+     * By default all rules are enabled.
+     *
+     * This property allows creating a disabled rule which needs to be enabled explicitly.
+     */
+    val enabled: Boolean
 
     /**
      * Optional list of tests.
@@ -49,6 +56,7 @@ internal sealed interface JsonRule {
         @SerialName("domain_regex")
         override val domainRegex: String? = null,
         override val description: String? = null,
+        override val enabled: Boolean = true,
         override val tests: List<Test> = emptyList(),
         val parameters: List<String>,
     ) : JsonRule
@@ -60,6 +68,7 @@ internal sealed interface JsonRule {
         @SerialName("domain_regex")
         override val domainRegex: String? = null,
         override val description: String? = null,
+        override val enabled: Boolean = true,
         override val tests: List<Test> = emptyList(),
         val regex: String,
     ) : JsonRule
@@ -70,6 +79,7 @@ internal sealed interface JsonRule {
         override val domains: List<String> = emptyList(),
         override val domainRegex: String? = null,
         override val description: String? = null,
+        override val enabled: Boolean = true,
         override val tests: List<Test> = emptyList(),
         val input: String,
         val output: String? = null,

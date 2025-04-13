@@ -7,6 +7,7 @@ import mathilda.rule.noOpRule
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 class MathildaBuilderTest {
 
@@ -23,6 +24,11 @@ class MathildaBuilderTest {
                         "type":"remove_regex",
                         "domain_regex": "google\\.com",
                         "regex": "regex",
+                    },
+                    "disabled": {
+                        "type":"remove_params",
+                        "parameters": ["a","b"],
+                        "enabled": false,
                     }
                 }
             }
@@ -32,7 +38,7 @@ class MathildaBuilderTest {
     fun shouldParseJson() {
         val mathilda = builder(json).build()
 
-        assertEquals(mathilda.rules.size, 2)
+        assertEquals(mathilda.rules.size, 3)
         assertEquals(mathilda.enabledRules.size, 2)
         assertContains(
             mathilda.rules,
@@ -50,6 +56,7 @@ class MathildaBuilderTest {
                 regex = "regex",
             )
         )
+        assertFalse { mathilda.isEnabled("disabled") }
     }
 
     @Test

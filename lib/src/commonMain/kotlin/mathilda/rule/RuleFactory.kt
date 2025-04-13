@@ -11,7 +11,7 @@ internal object RuleFactory {
 
     fun fromJsonRule(entry: Map.Entry<String, JsonRule>) = fromJsonRule(entry.key, entry.value)
 
-    private fun fromJsonRule(id: String, rule: JsonRule): Rule = when (rule) {
+    private fun fromJsonRule(id: String, rule: JsonRule): Pair<Rule, Boolean> = (when (rule) {
         is JsonRule.JsonRemoveParamsRule -> RemoveParamsRule(
             id = id,
             domains = rule.domains.toImmutableList(),
@@ -37,11 +37,10 @@ internal object RuleFactory {
             output = rule.output?.toNullIfBlank(),
             decode = rule.decode,
         )
-    }
+    }) to rule.enabled
 
     private fun List<JsonRule.Test>.map(): ImmutableList<Rule.Test> =
         map { Rule.Test(input = it.input, expected = it.expected) }.toImmutableList()
 }
 
-private fun String?.toNullIfBlank(): String? =
-    if (isNullOrBlank()) null else this
+private fun String?.toNullIfBlank(): String? = if (isNullOrBlank()) null else this
