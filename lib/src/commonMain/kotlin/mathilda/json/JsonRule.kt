@@ -77,6 +77,7 @@ internal sealed interface JsonRule {
     @SerialName("transform")
     data class JsonTransformRule(
         override val domains: List<String> = emptyList(),
+        @SerialName("domain_regex")
         override val domainRegex: String? = null,
         override val description: String? = null,
         override val enabled: Boolean = true,

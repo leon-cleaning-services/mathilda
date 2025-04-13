@@ -1,6 +1,47 @@
 {
   "version": 1,
   "rules": {
+    "aliexpress": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "domain_regex": "(.+\\.)?aliexpress\\..+/item/",
+      "tests": [
+        {
+          "input": "https://m.de.aliexpress.com/item/32948511896.html?ug_edm_item_id=32948511896&pdp_npi=2%40dis%21EUR%21%E2%82%AC%2024%2C58%21%E2%82%AC%2014%2C50%21%21%21%21%21%402102fea916677108936606992d1f0c%2112000027801501608%21edm&edm_click_module=item_detail&tracelog=rowan&rowan_id1=aeug_edm_24677_1_de_DE_2022-11-05&rowan_msg_id=8681biz_pay_after_purchase%3A0%3A0_572584174%248a93ce02da764ff48f65112ca837f7df&ck=in_edm_other&gatewayAdapt=gloPc2deuMsite",
+          "expected": "https://m.de.aliexpress.com/item/32948511896.html"
+        },
+        {
+          "input": "https://aliexpress.com/item/32948511896.html?ug_edm_item_id=32948511896&pdp_npi=2%40dis%21EUR%21%E2%82%AC%2024%2C58%21%E2%82%AC%2014%2C50%21%21%21%21%21%402102fea916677108936606992d1f0c%2112000027801501608%21edm&edm_click_module=item_detail&tracelog=rowan&rowan_id1=aeug_edm_24677_1_de_DE_2022-11-05&rowan_msg_id=8681biz_pay_after_purchase%3A0%3A0_572584174%248a93ce02da764ff48f65112ca837f7df&ck=in_edm_other&gatewayAdapt=gloPc2deuMsite",
+          "expected": "https://aliexpress.com/item/32948511896.html"
+        }
+      ]
+    },
+    "amazon_product": {
+      "type": "transform",
+      "input": "((?:https?://)?(?:www\\.)?amazon\\.[^/]*).*/(?:dp?|gp/product)?/([^/?&]*)",
+      "output": "\\1/dp/\\2/",
+      "domain_regex": "amazon\\.[^/]*.*/(?:dp?|gp/product)?/[^/?&]*",
+      "tests": [
+        {
+          "input": "https://www.amazon.de/Xiaomi-Aktivit%C3%A4tstracker-Trainings-Puls%C3%BCberwachung-Akkulaufzeit/dp/B091G3FLL7/?_encoding=UTF8&pd_rd_w=xDcJP&pf_rd_p=bf172aca-3277-41f6-babb-6ce7fc34cf7f&pf_rd_r=ZC6FZ5G6W9K8DEZTPBYW&pd_rd_r=11b3ec4e-047c-4f37-8302-62dedb8f502b&pd_rd_wg=Ozi90&ref_=pd_gw_ci_mcx_mr_hp_atf_m",
+          "expected": "https://www.amazon.de/dp/B091G3FLL7/"
+        },
+        {
+          "input": "https://www.amazon.co.uk/Xiaomi-Aktivit%C3%A4tstracker-Trainings-Puls%C3%BCberwachung-Akkulaufzeit/dp/B091G3FLL7/?_encoding=UTF8&pd_rd_w=xDcJP&pf_rd_p=bf172aca-3277-41f6-babb-6ce7fc34cf7f&pf_rd_r=ZC6FZ5G6W9K8DEZTPBYW&pd_rd_r=11b3ec4e-047c-4f37-8302-62dedb8f502b&pd_rd_wg=Ozi90&ref_=pd_gw_ci_mcx_mr_hp_atf_m",
+          "expected": "https://www.amazon.co.uk/dp/B091G3FLL7/"
+        },
+        {
+          "input": "https://www.amazon.fr/gp/product/B0C9JKKL7N?tag=egcdealabs08-21&ascsubtag=1498016995",
+          "expected": "https://www.amazon.fr/dp/B0C9JKKL7N/"
+        },
+        {
+          "input": "https://www.amazon.com/gp/aw/d/B009EEZYE0/ref=ox_sc_act_image_1?smid=ATVPDKIKX0DER&psc=1",
+          "expected": "https://www.amazon.com/dp/B009EEZYE0/"
+        }
+      ]
+    },
     "google_analytics": {
       "type": "remove_params",
       "parameters": [

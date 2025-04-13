@@ -12,7 +12,7 @@ class RemoveParamsRuleTest {
     @Test
     fun shouldRemoveParameters() {
         val rule = RemoveParamsRule(
-            id = "google_analytics",
+            id = "test1",
             parameters = persistentListOf(
                 "utm_source",
                 "utm_medium",
@@ -36,7 +36,7 @@ class RemoveParamsRuleTest {
     @Test
     fun shouldRemoveWildcardParameters() {
         val rule = RemoveParamsRule(
-            id = "google_analytics",
+            id = "test2",
             parameters = persistentListOf(
                 "utm_*",
                 "ga_*",
@@ -45,7 +45,27 @@ class RemoveParamsRuleTest {
         )
 
         runTest {
-            val result = rule("https://www.example.com?utm_source=abc&ga_campaign=xyz&test_abc=123")
+            val result =
+                rule("https://www.example.com?utm_source=abc&ga_campaign=xyz&test_abc=123&test=456")
+
+            assertIs<Rule.Result.Success>(result)
+            assertEquals(
+                "https://www.example.com?test=456",
+                result.value
+            )
+        }
+    }
+
+    @Test
+    fun shouldRemoveAllParameters() {
+        val rule = RemoveParamsRule(
+            id = "test3",
+            parameters = persistentListOf("*")
+        )
+
+        runTest {
+            val result =
+                rule("https://www.example.com?utm_source=abc&ga_campaign=xyz&test_abc=123&test=456")
 
             assertIs<Rule.Result.Success>(result)
             assertEquals(

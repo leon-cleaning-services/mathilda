@@ -21,7 +21,8 @@ class RulesTest {
                     assertIs<Rule.Result.Success>(
                         actual,
                         "\nrule id: ${rule.id}\n" +
-                            "input: ${test.input}\n"
+                            "input: ${test.input}\n" +
+                            "expected: ${test.expected}\n"
                     )
 
                     assertEquals(
