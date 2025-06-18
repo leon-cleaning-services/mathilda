@@ -9,6 +9,7 @@ public sealed interface Rule {
     public data class Test(
         val input: String,
         val expected: String,
+        val skip: Boolean = false
     )
 
     public sealed interface Result {

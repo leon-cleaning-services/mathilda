@@ -40,7 +40,7 @@ internal object RuleFactory {
     }) to rule.enabled
 
     private fun List<JsonRule.Test>.map(): ImmutableList<Rule.Test> =
-        map { Rule.Test(input = it.input, expected = it.expected) }.toImmutableList()
+        map { Rule.Test(input = it.input, expected = it.expected, skip = it.skip) }.toImmutableList()
 }
 
 private fun String?.toNullIfBlank(): String? = if (isNullOrBlank()) null else this

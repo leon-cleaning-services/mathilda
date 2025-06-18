@@ -10,8 +10,8 @@ class JvmMathildaBuilderTest {
     fun shouldParseJsonFile() {
         val mathilda = builder(jsonStream).build()
 
-        assertEquals(2, mathilda.rules.size)
-        assertEquals(2, mathilda.enabledRules.size)
+        assertEquals(53, mathilda.rules.size)
+        assertEquals(53, mathilda.enabledRules.size)
         assertTrue { mathilda.rules.any { it.id == "google_analytics" } }
         assertTrue { mathilda.rules.any { it.id == "google_play_store" } }
     }
