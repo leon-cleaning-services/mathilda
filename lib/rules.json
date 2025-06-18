@@ -18,6 +18,19 @@
         }
       ]
     },
+    "amazon": {
+      "type": "remove_params",
+      "parameters": [
+        "ref_?"
+      ],
+      "domain_regex": "amazon\\..+/",
+      "tests": [
+        {
+          "input": "https://www.amazon.de/gp/css/homepage.html?ref_=nav_AccountFlyout_ya",
+          "expected": "https://www.amazon.de/gp/css/homepage.html"
+        }
+      ]
+    },
     "amazon_product": {
       "type": "transform",
       "input": "((?:https?://)?(?:www\\.)?amazon\\.[^/]*).*/(?:dp?|gp/product)?/([^/?&]*)",
@@ -42,6 +55,184 @@
         }
       ]
     },
+    "aol_search": {
+      "type": "transform",
+      "input": "RU=([^/&]+)",
+      "decode": true,
+      "domains": [
+        "search.aol.com"
+      ],
+      "tests": [
+        {
+          "input": "https://search.aol.com/click/_ylt=A0geK.HAoltiwykAlAR8CWVH;_ylu=Y29sbwNiZjEEcG9zAzQEdnRpZAMEc2VjA3Ny/RV=2/RE=1650201408/RO=10/RU=https%3a%2f%2fgithub.com%2fsvenjacobs%2fleon/RK=0/RS=cXRWej4shdsEIIDm147.G4CRZEo-",
+          "expected": "https://github.com/svenjacobs/leon"
+        }
+      ]
+    },
+    "at_analytics": {
+      "type": "remove_params",
+      "parameters": [
+        "at_*"
+      ],
+      "tests": [
+        {
+          "input": "https://www.tagesschau.de/ausland/europa/toto-cutugno-tot-100.html?at_medium=mastodon&at_campaign=tagesschau.de",
+          "expected": "https://www.tagesschau.de/ausland/europa/toto-cutugno-tot-100.html"
+        }
+      ]
+    },
+    "change": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "domains": [
+        "change.org"
+      ],
+      "tests": [
+        {
+          "input": "https://www.change.org/p/verbot-von-silvesterfeuerwerk-f%C3%BCr-privatpersonen-staedtetag-bmuv?utm_content=cl_sharecopy_12878233_de-DE%3Av3&recruiter=44645781&recruited_by_id=29ffed30-7385-0130-ec6e-3c764e044e9e&utm_source=share_petition&utm_medium=copylink&utm_campaign=psf_combo_share_initial&pt=AVBldGl0aW9uAJmBxABBBBBAAAY7fdDHYupoE1NzU0NzE3Zg%3D%3D",
+          "expected": "https://www.change.org/p/verbot-von-silvesterfeuerwerk-f%C3%BCr-privatpersonen-staedtetag-bmuv"
+        }
+      ]
+    },
+    "cx_analytics": {
+      "type": "remove_params",
+      "parameters": [
+        "cx_*",
+        "cxrecs_s",
+        "mibextid"
+      ],
+      "tests": [
+        {
+          "input": "https://www.redacted.com/redacted/2023/06/01/page-of-article.html?cx_testId=40&cx_testVariant=cx_8&cx_artPos=4&mibextid=Zxz2cZ&cxrecs_s=5",
+          "expected": "https://www.redacted.com/redacted/2023/06/01/page-of-article.html"
+        }
+      ]
+    },
+    "ebay": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "domain_regex": "ebay\\..+/itm/",
+      "tests": [
+        {
+          "input": "https://www.ebay.de/itm/271784973135?mkcid=16&mkevt=1&mkrid=707-127654-2357-0&ssspo=rMbbkKXARCW&sssrc=2348624&ssuid=Bw-3_LUXSsm&widget_ver=artemis&media=MORE",
+          "expected": "https://www.ebay.de/itm/271784973135"
+        }
+      ]
+    },
+    "el_financiero": {
+      "type": "remove_params",
+      "parameters": [
+        "outputType"
+      ],
+      "domains": [
+        "elfinanciero.com.mx"
+      ],
+      "tests": [
+        {
+          "input": "https://www.elfinanciero.com.mx/food-and-drink/2023/01/04/dia-de-reyes-2023-donde-comprar-rosca-de-tacos-en-la-cdmx/?outputType=amp",
+          "expected": "https://www.elfinanciero.com.mx/food-and-drink/2023/01/04/dia-de-reyes-2023-donde-comprar-rosca-de-tacos-en-la-cdmx/"
+        }
+      ]
+    },
+    "empty_parameters": {
+      "type": "transform",
+      "input": "[?&][^=]+=(?=&|$)",
+      "tests": [
+        {
+          "skip": true,
+          "input": "https://www.buch24.de/shopdirekt.cgi?sessionid=1650808921-319962258&id=13241297&p=3&sid=&static=0&nav=",
+          "expected": "https://www.buch24.de/shopdirekt.cgi?sessionid=1650808921-319962258&id=13241297&p=3&static=0"
+        }
+      ]
+    },
+    "facebook": {
+      "type": "remove_params",
+      "parameters": [
+        "(id|story_fbid)"
+      ],
+      "domain_regex": "(m\\.)?facebook.com",
+      "tests": [
+        {
+          "skip": true,
+          "input": "https://www.facebook.com/reel/1242384407160280?sfnsn=scwspmo",
+          "expected": "https://www.facebook.com/reel/1242384407160280"
+        },
+        {
+          "input": "https://m.facebook.com/story.php?story_fbid=pfbid0HqS6zLZvNrQt6ACvjv3hKq6khpVse437nWSq2jBifKRD5sVH2XRLC3zz8aA7TKkWl&id=4&sfnsn=wiwspmo&mibextid=XzsMCV",
+          "expected": "https://m.facebook.com/story.php?story_fbid=pfbid0HqS6zLZvNrQt6ACvjv3hKq6khpVse437nWSq2jBifKRD5sVH2XRLC3zz8aA7TKkWl&id=4"
+        }
+      ]
+    },
+    "facebook_analytics": {
+      "type": "remove_params",
+      "parameters": [
+        "fb_*",
+        "fbclid*",
+        "sfnsn"
+      ],
+      "tests": [
+        {
+          "input": "https://www.example.com?fb_abc=123&fbclid=12345&sfnsn=scwspmo",
+          "expected": "https://www.example.com"
+        }
+      ]
+    },
+    "fast_company": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "tests": [
+        {
+          "input": "https://www.fastcompany.com/90890683/bronx-dream-school-david-adjaye?utm_source=newsletters&utm_medium=email&utm_campaign=FC%20%20Top%2010%20Newsletter.Newsletter%20-%20FC%20-%20Top%2010%205-7-23&leadld=773450&mkt_tok=NjEWLUXFRS04NZIAAAGLIUIVk0W4gRAxyR6Nmx3ZSH_IJS1KWrpFwGORBYZXQ3cnEc99TZ-1QVnrwnx87XLC_QdRSecUnOk0QLPnfUXF2vr9yAQuN7g|OjfbvtY",
+          "expected": "https://www.fastcompany.com/90890683/bronx-dream-school-david-adjaye"
+        }
+      ]
+    },
+    "flipkart": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "domains": [
+        "flipkart.com"
+      ],
+      "tests": [
+        {
+          "input": "https://www.flipkart.com/msi-gf63-thin-core-i5-10th-gen-8-gb-512-gb-ssd-windows-10-home-4-graphics-nvidia-geforce-rtx-3050-144-hz-10uc-607in-gaming-laptop/p/itm92565651dc3ed?pid=COMG5AWT9CKRMEFU&lid=LSTCOMG5AWT9CKRMEFULV38QB&marketplace=FLIPKART&q=gaminglaptop&store=6bo%2Fb5g&srno=s_1_15&otracker=AS_QueryStore_OrganicAutoSuggest_1_9_na_na_na&otracker1=AS_QueryStore_OrganicAutoSuggest_1_9_na_na_na&fm=SEARCH&iid=22ff2dee-d44e-40e3-9811-5d229fa974fc.COMG5AWT9CKRMEFU.SEARCH&ppt=hp&ppn=homepage&ssid=zv1f42w4bs3azitc1635436210945&qH=da5ee6f53d84b3c2",
+          "expected": "https://www.flipkart.com/msi-gf63-thin-core-i5-10th-gen-8-gb-512-gb-ssd-windows-10-home-4-graphics-nvidia-geforce-rtx-3050-144-hz-10uc-607in-gaming-laptop/p/itm92565651dc3ed"
+        }
+      ]
+    },
+    "geo_riot": {
+      "type": "transform",
+      "input": "GR_URL=([^&]+)",
+      "decode": true,
+      "domain_regex": "target.georiot\\.[^/]+/Proxy.ashx",
+      "tests": [
+        {
+          "input": "https://target.georiot.com/Proxy.ashx?tsid=8429&GR_URL=https%3A%2F%2Fwww.amazon.com%2Fdp%2FB0B3Q23BT4%3Ftag%3Dhawk-future-20%26linkCode%3Dogi%26th%3D1%26psc%3D1%26ascsubtag%3Dcbq-us-custom-tracking-20",
+          "expected": "https://www.amazon.com/dp/B0B3Q23BT4?tag=hawk-future-20&linkCode=ogi&th=1&psc=1&ascsubtag=cbq-us-custom-tracking-20"
+        }
+      ]
+    },
+    "google_ads": {
+      "type": "transform",
+      "input": "adurl=([^&]+)",
+      "domains": [
+        "googleadservices.com"
+      ],
+      "tests": [
+        {
+          "input": "https://www.googleadservices.com/pagead/aclk?sa=L&ai=Ccd5fYmNxY_3JN4TQo9kPwIqcyA37ibepbZuL5YvKELCQHxADIABgyY6xiZCk6A-CARdjYS1wdWItNjIxOTgxMTc0NzA0OTM3MaAB8OyYgSmpAt5OXuGRdag-qAMEyAMKqgS-AU_QsgWpC3X4b7LSH1pMKrb4yz70elntS3shophaRc0GA0363USvwfydKTGvg7sJgBeegkd_1uzEg99EtDgAbkpjEvmFZNcCJeARA0iilQtb2pRgRapZIYuJVDtZJib1XVMlPnV5NyZqXeQe5uUQul1xczG2sCJcO1U7qtgHAgyHA5N_UZh9taO1_6Fxvs5Yrb1Y7aphw3MM1AJHp5xe1Nb-xlKSgYOtY73BYFW0GthsZKj3sYYaVAcaNKdGNQGSBQoIE2gBeMqzyIcEoAZu2AYCgAfwpOngA4gHAZAHApgHAqgHhAioB6jSG6gHtgeoB-DPG6gH6dQbqAeMzRuoB7HcG6gHpJqxAqgHkZ-xAqgHsJuxAqgH36GxAqgHgcYbqAerxRuoB-adsQKoB8ifsQKoB7ehsQKoB9WpsQLSCBgIhMCAQBACGAAyBIHCgA46B8qAgICAgQWxCdouDFc10x_4yAkAmAsBugtBCAIQBRgEIAgoATADQANIAFABWAdgAGgAcAGIAQCYAQGiARUKAggBKAGAAQHQAQGQAgKoAgXAAgLYAQGAAgGIAgXQCxK4DAGaDQESuBP___________8BsBQCwBWBgIBA0BUB2BUB4hYCCAGAFwGKFwoIAxgBKAEwATgBoBcBqRex-7nVVf8wwg&num=3&cid=CAESD-D2sxZZsSg9jandUiDpjA&sig=AOD64_2Kzq5JFcf_khsfs5olxZcNXN75iQ&adurl=https://www.evedyth.shop/&ms=CoACWubneRVfv34M04DyUIeLpuvkwlUzfXCpaunrav-Ai4gNVenCJflFdHYFDDR6LR7QwvKsfwOo9373FlWLUelELxRgenTytMogqTCU3Dp32taq7ltdunYB7MP8RcmJyHNKBHG1QNnEZpcSCdxaH4Mf8rPELdcNFeSsgR0tKY2Yfhc-fM90aG22GTggyGMKgNXzziGFzmPmtPSDSiVbadhPHXoQTUB1U5NUQaR-CIV8816yqV2b_VOH4h0QZDWyabXhcrrfCpIQNLmEy8g39-YGcMlyiQBovndagTPNMGzoHbO6Yotf7AQeCUBgvIq9SGg-uBXmrgbo1UWe1t2v32dxSRIQ7MyqdMdGbezFYod08gtmhg&nb=8&nx=334&ny=15&dim=360x36",
+          "expected": "https://www.evedyth.shop/"
+        }
+      ]
+    },
     "google_analytics": {
       "type": "remove_params",
       "parameters": [
@@ -53,6 +244,22 @@
         {
           "input": "https://www.example.com?ga_abc=123&utm_def=456&gclid=789",
           "expected": "https://www.example.com"
+        }
+      ]
+    },
+    "google_search": {
+      "type": "transform",
+      "input": "(q|url)=([^&]+)",
+      "output": "\\2",
+      "domain_regex": "google\\.[^/]+/url",
+      "tests": [
+        {
+          "input": "https://www.google.com/url?sa=t&source=web&rct=j&url=https://www.regextester.com/&ved=2ahUKEwiTpvflqP34AhXOgv0HHSNQCOIQFnoECAcQAQ&usg=AOvVaw1wBmEA7TD90QkZPu7zcsOa",
+          "expected": "https://www.regextester.com/"
+        },
+        {
+          "input": "https://www.google.com/url?sa=t&source=web&rct=j&q=https://www.regextester.com/&ved=2ahUKEwiTpvflqP34AhXOgv0HHSNQCOIQFnoECAcQAQ&usg=AOvVaw1wBmEA7TD90QkZPu7zcsOa",
+          "expected": "https://www.regextester.com/"
         }
       ]
     },
@@ -69,6 +276,493 @@
         {
           "input": "https://store.google.com/gb/product/chromecast_google_tv?hl=en-GB&selections=eyJwcm9kdWN0RmFtaWx5IjoiWTJoeWIyMWxZMkZ6ZEY5bmIyOW5iR1ZmZEhZPSIsImhlcm9Qcm9kdWN0cyI6W1siY0hKa1h6YzRNekpmTXprMU1nPT0iLDEsbnVsbF1dfQ%3D%3D",
           "expected": "https://store.google.com/gb/product/chromecast_google_tv"
+        }
+      ]
+    },
+    "heise": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "domains": [
+        "heise.de"
+      ]
+    },
+    "ikea": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "tests": [
+        {
+          "input": "https://www.ikea.com/ch/en/p/billy-bookcase-white-30263844/?gad_source=1&extProvId=5",
+          "expected": "https://www.ikea.com/ch/en/p/billy-bookcase-white-30263844/"
+        }
+      ]
+    },
+    "instagram": {
+      "type": "remove_params",
+      "parameters": [
+        "igsh"
+      ],
+      "domains": [
+        "instagram.com"
+      ],
+      "tests": [
+        {
+          "input": "https://www.instagram.com/reel/Ceeg-VgI4yF/?igsh=YmMyMTA2M2Y=",
+          "expected": "https://www.instagram.com/reel/Ceeg-VgI4yF/"
+        }
+      ]
+    },
+    "jdoqocy": {
+      "type": "transform",
+      "input": "url=([^/&]+)",
+      "decode": true,
+      "domains": [
+        "jdoqocy.com/click"
+      ],
+      "tests": [
+        {
+          "input": "https://www.jdoqocy.com/click-7988170-15232592?SID=11003b6m4t07&url=https%3A%2F%2Fwww.gog.com%2Fde%2Fgame%2Falwas_awakening",
+          "expected": "https://www.gog.com/de/game/alwas_awakening"
+        }
+      ]
+    },
+    "jodel": {
+      "type": "transform",
+      "input": "data=([^?&]+)",
+      "output": "https://share.jodel.com/post?postId=\\1",
+      "tests": [
+        {
+          "skip": true,
+          "input": "http://shared.jodel.com/a/key_live_abZZZZgPxyz82xxxxAAAAdefghi4YYY1?%24identity_id=123456789012345678&feature=shared_post&campaign=image_DE_FrontPage&type=0&duration=0&source=android&data=eyIkY2Fub25pY2FsX2lkZW50aWZpZXIiOiJzYWpcL2JhZGMwZmZlZWJhZGMwZmZlZTAxMjM0NSIsIiRwdWJsaWNseV9pbmRleGFibGUiOiJ0cnVlIiwicG9zdElkIjoiYmFkYzBmZmVlYmFkYzBmZmVlMDEyMzQ1IiwiJGRlc2t0b3BfdXJsIjoiaHR0cHM6XC9cL3NoYXJlLmpvZGVsLmNvbVwvcG9zdD9wb3N0SWQ9YmFkYzBmZmVlYmFkYzBmZmVlMDEyMzQ1IiwicmVmZXJyZXJfaWQiOiJhYmNkZWYwMTIzNDU2Nzg5ZGVhZGMwZGUiLCIkYW5kcm9pZF91cmwiOiJodHRwczpcL1wvc2hhcmUuam9kZWwuY29tXC9wb3N0P3Bvc3RJZD1iYWRjMGZmZWViYWRjMGZmZWUwMTIzNDUiLCIkaW9zX3VybCI6Imh0dHBzOlwvXC9zaGFyZS5qb2RlbC5jb21cL3Bvc3Q%2FcG9zdElkPWJhZGMwZmZlZWJhZGMwZmZlZTAxMjM0NSJ9?channel=copy",
+          "expected": "https://share.jodel.com/post?postId=badc0ffeebadc0ffee012345"
+        }
+      ]
+    },
+    "kogan": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "tests": [
+        {
+          "input": "https://www.kogan.com/au/buy/heybattery-samsung-galaxy-watch-7-44mm-bluetooth-l310-silver-ss-l310-sv/?ssid=201.bae7632c-5c90-46cf-a071-416f0879ecb5&click_id=VWDA74xN4CIffN9Rb_8l-46p",
+          "expected": "https://www.kogan.com/au/buy/heybattery-samsung-galaxy-watch-7-44mm-bluetooth-l310-silver-ss-l310-sv/"
+        }
+      ]
+    },
+    "lazada": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "domains": [
+        "lazada.com.my"
+      ],
+      "tests": [
+        {
+          "input": "https://www.lazada.com.my/products/100-cotton-jogger-6-poket-kain-tebal-cargo-pant-multi-pocket-seluar-kerja-i3103291614-s15547124539.html?dsource=share&laz_share_info=9532664_100_100_5449387_9533664_null&laz_token=d994010eeff70e9df2d3f465d5b0e727&exlaz=e_RtJqWofx9nLGip8qo24MCTJQcHdSbil0861t6ae%2Fu4vCXvTKdNAtBWNri5zqcNlYb9yEAKGsy7Oyw%2BVOW%2F%2FthI73bSZ6YkVRD3WnASIas1Y%3D&sub_aff_id=social_share&sub_id2=9532664&sub_id3=5449387&sub_id6=CPI_EXLAZ",
+          "expected": "https://www.lazada.com.my/products/100-cotton-jogger-6-poket-kain-tebal-cargo-pant-multi-pocket-seluar-kerja-i3103291614-s15547124539.html"
+        }
+      ]
+    },
+    "link_synergy": {
+      "type": "transform",
+      "input": "murl=([^&]+)",
+      "decode": true,
+      "domain_regex": "linksynergy\\.[^/]+/link",
+      "tests": [
+        {
+          "skip": true,
+          "input": "https://click.linksynergy.com/link?id=kXQk6%2AivFEQ&offerid=1123623.20516002704&type=15&murl=https%3A%2F%2Fwww.newegg.com%2Fp%2F23B-001E-003S3%3Fitem%3D9SIAGREJ3S5851&u1=cbq-us-custom-tracking",
+          "expected": "https://www.newegg.com/p/23B-001E-003S3?item=9SIAGREJ3S5851"
+        }
+      ]
+    },
+    "my_dealz_parameters": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ]
+    },
+    "my_dealz_redirects": {
+      "type": "transform",
+      "input": "\\1",
+      "output": "\\1"
+    },
+    "netflix": {
+      "type": "remove_params",
+      "parameters": [
+        "s*",
+        "t*",
+        "trkid*",
+        "vlang*",
+        "clip",
+        "netflixsource*",
+        "fromApp*",
+        "trg"
+      ],
+      "tests": [
+        {
+          "input": "https://www.netflix.com/de/title/81040344?s=a&trkid=13747225&t=more&vlang=de&clip=81499054&trg=trg",
+          "expected": "https://www.netflix.com/de/title/81040344"
+        },
+        {
+          "input": "https://help.netflix.com/en/titlerequest?netflixsource=android&fromApp=true",
+          "expected": "https://help.netflix.com/en/titlerequest"
+        }
+      ]
+    },
+    "new_egg": {
+      "type": "transform",
+      "input": "/p/([A-Z0-9]+)",
+      "output": "https://www.newegg.com/p/\\1",
+      "tests": [
+        {
+          "input": "https://www.newegg.com/black-acer-nitro-5-an515-57-59f7-gaming/p/N82E16834360174?Item=N82E16834360174",
+          "expected": "https://www.newegg.com/p/N82E16834360174"
+        }
+      ]
+    },
+    "pearl": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "domains": [
+        "pearl.de"
+      ],
+      "tests": [
+        {
+          "input": "https://www.pearl.de/m/10884/?vid=985&curr=DEM&wa_id=995&wa_num=10884&mt=bWsqHZ2EOdIMxzpUi7oRsjVMLsC2%2Fyc65JwkwDStD1WiEu3REqi2%2Fw%3D%3D&utm_source=10884&utm_medium=onlineversion_D",
+          "expected": "https://www.pearl.de/m/10884/"
+        }
+      ]
+    },
+    "reddit": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "domains": [
+        "reddit.com"
+      ],
+      "tests": [
+        {
+          "input": "https://www.reddit.com/r/fossdroid/comments/1659ic4/material_files_is_still_maintained/?share_id=Toc_TMpn88yOUd7Z-y0xv&utm_content=1&utm_medium=android_app&utm_name=androidcss&utm_source=share&utm_term=1",
+          "expected": "https://www.reddit.com/r/fossdroid/comments/1659ic4/material_files_is_still_maintained/"
+        }
+      ]
+    },
+    "reddit_mail": {
+      "type": "transform",
+      "input": "click\\.redditmail\\.com/[^/]+/([^?]+)%3F",
+      "decode": true,
+      "domains": [
+        "click.redditmail.com"
+      ],
+      "tests": [
+        {
+          "input": "https://click.redditmail.com/CL0/https:%2F%2Fwww.reddit.com%2Fr%2FCompressOrDie%2Fcomments%2F11u2vso%2Frcompressordie_lounge%2Fjl9fp68%2F%3F\\$deep_link=true%26correlation_id=5329d6c9-34a4-4a44-9cea-76317f68123f%26ref=email_comment_reply%26ref_campaign=email_comment_reply%26ref_source=email/3/010001884768a910-4b97a265-36d8-461f-9d79-fc2b535e5217-000000/sa_uFF6uMCdJu1cTLCaOI8Ng6wQBjfPtc5hMCnOrx4Q=301",
+          "expected": "https://www.reddit.com/r/CompressOrDie/comments/11u2vso/rcompressordie_lounge/jl9fp68/"
+        }
+      ]
+    },
+    "reddit_out": {
+      "type": "transform",
+      "input": "url=([^/&]+)",
+      "decode": true,
+      "domains": [
+        "out.reddit.com"
+      ],
+      "tests": [
+        {
+          "input": "https://out.reddit.com/t3_11zcpau?url=https%3A%2F%2Fcompress-or-die.com%2FThe-nasty-red-JPG-compression-artifacts&token=AQAA-odsZCyQ04Ae10crjvg8DGlsTPckMpu3vvIjNwmWPgLdQMbC&app_name=web2x&web_redirect=true/",
+          "expected": "https://compress-or-die.com/The-nasty-red-JPG-compression-artifacts"
+        }
+      ]
+    },
+    "salesforce_parameters": {
+      "type": "remove_params",
+      "parameters": [
+        "utm_*",
+        "sfmc_*"
+      ],
+      "tests": [
+        {
+          "input": "https://www.geox.com/it-IT/uomo/scarpe/stivaletti/?sfmc_activityid=a5542c58-11be-4f33-8dd5-5e0ebeae30f2",
+          "expected": "https://www.geox.com/it-IT/uomo/scarpe/stivaletti/"
+        }
+      ]
+    },
+    "session_ids": {
+      "type": "remove_params",
+      "parameters": [
+        "sessionid",
+        "jsessionid",
+        "PHPSESSID",
+        "sid",
+        "session"
+      ],
+      "tests": [
+        {
+          "input": "https://www.buch24.de/shopdirekt.cgi?sessionid=1650808921-319962258&id=13241297",
+          "expected": "https://www.buch24.de/shopdirekt.cgi?id=13241297"
+        },
+        {
+          "input": "https://www.buch24.de/shopdirekt.cgi?jsessionid=1650808921-319962258&id=13241297",
+          "expected": "https://www.buch24.de/shopdirekt.cgi?id=13241297"
+        }
+      ]
+    },
+    "shopee": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "domains": [
+        "shopee.com.my"
+      ],
+      "tests": [
+        {
+          "input": "https://shopee.com.my/product/300862466/12251369135?smtt=O.123661111-1672730601.9",
+          "expected": "https://shopee.com.my/product/300862466/12251369135"
+        }
+      ]
+    },
+    "spiegel": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "domains": [
+        "spiegel.de"
+      ],
+      "tests": [
+        {
+          "input": "https://www.spiegel.de/netzwelt/elon-musk-twitter-sperrt-konten-mehrerer-journalisten-von-new-york-times-washington-post-etc-a-040213a0-aa1e-4627-9a5a-69d5f4f929fb?sara_ecid=soci_upd_KsBF0AFjflf0DZCxpPYDCQgO1dEMph1",
+          "expected": "https://www.spiegel.de/netzwelt/elon-musk-twitter-sperrt-konten-mehrerer-journalisten-von-new-york-times-washington-post-etc-a-040213a0-aa1e-4627-9a5a-69d5f4f929fb"
+        }
+      ]
+    },
+    "spotify": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "domain_regex": "(open\\.)?spotify\\.com",
+      "tests": [
+        {
+          "input": "https://open.spotify.com/album/5N2BIKomahKMAAirp8tiBN?si=BICcHVzTTqmqt82Y6f2e_A&utm_source=native-share-menu",
+          "expected": "https://open.spotify.com/album/5N2BIKomahKMAAirp8tiBN"
+        },
+        {
+          "input": "https://open.spotify.com/track/5LEbg97KkVmAv9qHR7bS59?si=CXCVCQplRkqNtDWW42dXgA&context=spotify%3Aplaylist%3A37i9dQZF1EpjSENbNnZRJr",
+          "expected": "https://open.spotify.com/track/5LEbg97KkVmAv9qHR7bS59"
+        }
+      ]
+    },
+    "the_guardian": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "domains": [
+        "theguardian.com"
+      ],
+      "tests": [
+        {
+          "input": "https://www.theguardian.com/world/2023/jan/15/nepal-plane-crash-with-72-onboard-leaves-at-least-16-dead?CMP=Share_AndroidApp_Other",
+          "expected": "https://www.theguardian.com/world/2023/jan/15/nepal-plane-crash-with-72-onboard-leaves-at-least-16-dead"
+        }
+      ]
+    },
+    "threads": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "domains": [
+        "threads.net"
+      ],
+      "tests": [
+        {
+          "input": "https://www.threads.net/t/CufR4M8yNdJ/?igshid=NTc4MTIwNjQ2YQ==",
+          "expected": "https://www.threads.net/t/CufR4M8yNdJ/"
+        }
+      ]
+    },
+    "tiktok": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "tests": [
+        {
+          "input": "https://www.tiktok.com/@lihayk/video/7271645505522879751?is_from_webapp=1&sender_device=pc&web_id=7098566637619288452",
+          "expected": "https://www.tiktok.com/@lihayk/video/7271645505522879751"
+        },
+        {
+          "input": "https://www.tiktok.com/@conqressesquotes/video/7284563007244389664?_t=3tmYqC7L494&_r=1",
+          "expected": "https://www.tiktok.com/@conqressesquotes/video/7284563007244389664"
+        },
+        {
+          "input": "https://www.tiktok.com/@elaine_carroll?_t=8gneIBdmRJ1&_r=1",
+          "expected": "https://www.tiktok.com/@elaine_carroll"
+        }
+      ]
+    },
+    "webtrekk": {
+      "type": "remove_params",
+      "parameters": [
+        "wt_*"
+      ],
+      "tests": [
+        {
+          "input": "https://www.example.com?wt_abc=123&wt_efg=456",
+          "expected": "https://www.example.com"
+        }
+      ]
+    },
+    "wikipedia": {
+      "type": "remove_params",
+      "parameters": [
+        "wprov"
+      ],
+      "tests": [
+        {
+          "input": "https://en.wikipedia.org/wiki/Kerosene?wprov=sfla1",
+          "expected": "https://en.wikipedia.org/wiki/Kerosene"
+        }
+      ]
+    },
+    "x": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "tests": [
+        {
+          "input": "https://twitter.com/AndroidDev/status/1453763770334027781?t=QEv2BUR2LOumjgK18S72bA&s=09",
+          "expected": "https://twitter.com/AndroidDev/status/1453763770334027781"
+        },
+        {
+          "input": "https://twitter.com/fantasm_finance/status/1501569232881995785?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1501569232881995785%7Ctwgr%5E%7Ctwcon%5Es1_&ref_url=https%3A%2F%2Fwww.coindesk.com%2Ftech%2F2022%2F03%2F10%2Ffantom-based-algo-protocol-fantasm-exploited-for-26m%2F",
+          "expected": "https://twitter.com/fantasm_finance/status/1501569232881995785"
+        },
+        {
+          "input": "https://x.com/AndroidDev/status/1453763770334027781?t=QEv2BUR2LOumjgK18S72bA&s=09",
+          "expected": "https://x.com/AndroidDev/status/1453763770334027781"
+        },
+        {
+          "input": "https://x.com/fantasm_finance/status/1501569232881995785?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1501569232881995785%7Ctwgr%5E%7Ctwcon%5Es1_&ref_url=https%3A%2F%2Fwww.coindesk.com%2Ftech%2F2022%2F03%2F10%2Ffantom-based-algo-protocol-fantasm-exploited-for-26m%2F",
+          "expected": "https://x.com/fantasm_finance/status/1501569232881995785"
+        }
+      ]
+    },
+    "yahoo_redirect": {
+      "type": "transform",
+      "input": "RU=([^/&]+)",
+      "decode": true,
+      "domains": [
+        "r.search.yahoo.com"
+      ],
+      "tests": [
+        {
+          "input": "https://r.search.yahoo.com/_ylt=A0geKLovoVtisIEAUapx.9w4;_ylu=Y29sbwNiZjEEcG9zAzQEdnRpZAMEc2VjA3Ny/RV=2/RE=1650201007/RO=10/RU=https%3a%2f%2fgithub.com%2fsvenjacobs%2fleon/RK=2/RS=rHoItccMzwyZAXsJuDMkBaKUMx0-",
+          "expected": "https://github.com/svenjacobs/leon"
+        }
+      ]
+    },
+    "yahoo_search": {
+      "type": "transform",
+      "input": "p=([^&]+)",
+      "output": "https://search.yahoo.com/search?p=\\1",
+      "domains": [
+        "search.yahoo.com"
+      ],
+      "tests": [
+        {
+          "input": "https://search.yahoo.com/search?p=hi&fr=yfp-hrmob&fr2=p%3Afp%2Cm%3Asb&.tsrc=yfp-hrmob&ei=UTF-8&fp=1&toggle=1&cop=mss",
+          "expected": "https://search.yahoo.com/search?p=hi"
+        }
+      ]
+    },
+    "yandex": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ]
+    },
+    "youtube": {
+      "type": "remove_params",
+      "parameters": [
+        "*"
+      ],
+      "domain_regex": "(?:(?:(?:m(?:usic)?\\.)?youtube\\.com)|youtu\\.be)",
+      "tests": [
+        {
+          "skip": true,
+          "input": "https://m.youtube.com/watch?v=CvFH_6DNRCY&pp=ygUHZGVidXNzeQ%3D%3D",
+          "expected": "https://m.youtube.com/watch?v=CvFH_6DNRCY"
+        },
+        {
+          "input": "https://m.youtube.com/watch?v=CvFH_6DNRCY&t=125",
+          "expected": "https://m.youtube.com/watch?v=CvFH_6DNRCY&t=125"
+        },
+        {
+          "input": "https://m.youtube.com/results?sp=mAEA&search_query=funnydogvideo",
+          "expected": "https://m.youtube.com/results&search_query=funny+dog+video"
+        },
+        {
+          "input": "https://youtube.com/playlist?list=PLkqz3S84Tw-QYEdfTLBzxJ1FAprtqeEpJ&si=2tDDmSKejG2GTtj5",
+          "expected": "https://youtube.com/playlist?list=PLkqz3S84Tw-QYEdfTLBzxJ1FAprtqeEpJ"
+        },
+        {
+          "input": "https://music.youtube.com/watch?v=KGFkMD2zotU&si=JrZ7QzX4VeMrfzp8",
+          "expected": "https://music.youtube.com/watch?v=KGFkMD2zotU"
+        },
+        {
+          "input": "https://youtu.be/RvRhUHTV_8k?si=OXYBmGTMXib1jlA2?si=UA0UVnrmPbK612Lu",
+          "expected": "https://youtu.be/RvRhUHTV_8k"
+        }
+      ]
+    },
+    "youtube_music": {
+      "type": "transform",
+      "input": "list=([A-Za-z0-9_\\-]+)",
+      "output": "https://youtube.com/playlist?list=\\1",
+      "tests": [
+        {
+          "input": "https://music.youtube.com/playlist?list=RDCLAK5uy_mPolD_J22gS1SKxufARWcTZd1UrAH_0ZI",
+          "expected": "https://youtube.com/playlist?list=RDCLAK5uy_mPolD_J22gS1SKxufARWcTZd1UrAH_0ZI"
+        }
+      ]
+    },
+    "youtube_redirect": {
+      "type": "transform",
+      "input": "q=([^&]+)",
+      "decode": true,
+      "domains": [
+        "youtube.com/redirect"
+      ],
+      "tests": [
+        {
+          "input": "https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqa1JoZzZUczlhMWJCaTBoc1lqa3ZtX2Rpd0ZPUXxBQ3Jtc0tsYVhpenF1czV5VjlwZm5pemZGdm4zNHVXSldEUlR6dHNhZzI0UkFvLXo0cEVyUk0yaHR5LVhGWEFCLVdzdmlZWGU3eUY5ZWdUZTBUbEw3MVg4UDZCRzdkXzdaaGczT25Ka3Q5bjUzTmxWVHF3Tll6MA&q=http%3A%2F%2Fwww.google.com%2Fabout%2F&html_redirect=1",
+          "expected": "http://www.google.com/about/"
+        }
+      ]
+    },
+    "youtube_short_url": {
+      "type": "transform",
+      "input": "youtu.be/([A-Za-z0-9_-]+)",
+      "output": "https://www.youtube.com/watch?v=\\1",
+      "tests": [
+        {
+          "input": "https://youtu.be/5HaUOgW5BlA",
+          "expected": "https://www.youtube.com/watch?v=5HaUOgW5BlA"
         }
       ]
     }
