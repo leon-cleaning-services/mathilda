@@ -44,7 +44,6 @@ internal object RuleFactory {
             tests = rule.tests.map(),
             input = rule.input,
             output = rule.output?.toNullIfBlank(),
-            decode = rule.decode,
         )
     }) to rule.enabled
 

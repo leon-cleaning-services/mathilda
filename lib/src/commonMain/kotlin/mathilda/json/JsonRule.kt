@@ -96,6 +96,5 @@ internal sealed interface JsonRule {
         override val tests: List<Test> = emptyList(),
         val input: String,
         val output: String? = null,
-        val decode: Boolean = false,
     ) : JsonRule
 }

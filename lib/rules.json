@@ -21,7 +21,7 @@
     "amazon_product": {
       "type": "transform",
       "input": "((?:https?://)?(?:www\\.)?amazon\\.[^/]*).*/(?:dp?|gp/product)?/([^/?&]*)",
-      "output": "\\1/dp/\\2/",
+      "output": "{{1}}/dp/{{2}}/",
       "domain_regex": "amazon\\.[^/]*.*/(?:dp?|gp/product)?/[^/?&]*",
       "tests": [
         {
@@ -87,6 +87,17 @@
         {
           "input": "https://m.facebook.com/story.php?story_fbid=pfbid0HqS6zLZvNrQt6ACvjv3hKq6khpVse437nWSq2jBifKRD5sVH2XRLC3zz8aA7TKkWl&id=4&sfnsn=wiwspmo&mibextid=XzsMCV",
           "expected": "https://m.facebook.com/story.php?story_fbid=pfbid0HqS6zLZvNrQt6ACvjv3hKq6khpVse437nWSq2jBifKRD5sVH2XRLC3zz8aA7TKkWl&id=4"
+        }
+      ]
+    },
+    "jodel": {
+      "type": "transform",
+      "input": "data=([^?&]+)",
+      "output": "{{1:urldecode:base64decode:jsonvalue($android_url)}}",
+      "tests": [
+        {
+          "input": "http://shared.jodel.com/a/key_live_abZZZZgPxyz82xxxxAAAAdefghi4YYY1?%24identity_id=123456789012345678&feature=shared_post&campaign=image_DE_FrontPage&type=0&duration=0&source=android&data=eyIkY2Fub25pY2FsX2lkZW50aWZpZXIiOiJzYWpcL2JhZGMwZmZlZWJhZGMwZmZlZTAxMjM0NSIsIiRwdWJsaWNseV9pbmRleGFibGUiOiJ0cnVlIiwicG9zdElkIjoiYmFkYzBmZmVlYmFkYzBmZmVlMDEyMzQ1IiwiJGRlc2t0b3BfdXJsIjoiaHR0cHM6XC9cL3NoYXJlLmpvZGVsLmNvbVwvcG9zdD9wb3N0SWQ9YmFkYzBmZmVlYmFkYzBmZmVlMDEyMzQ1IiwicmVmZXJyZXJfaWQiOiJhYmNkZWYwMTIzNDU2Nzg5ZGVhZGMwZGUiLCIkYW5kcm9pZF91cmwiOiJodHRwczpcL1wvc2hhcmUuam9kZWwuY29tXC9wb3N0P3Bvc3RJZD1iYWRjMGZmZWViYWRjMGZmZWUwMTIzNDUiLCIkaW9zX3VybCI6Imh0dHBzOlwvXC9zaGFyZS5qb2RlbC5jb21cL3Bvc3Q%2FcG9zdElkPWJhZGMwZmZlZWJhZGMwZmZlZTAxMjM0NSJ9?channel=copy",
+          "expected": "https://share.jodel.com/post?postId=badc0ffeebadc0ffee012345"
         }
       ]
     }
