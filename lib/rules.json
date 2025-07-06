@@ -71,6 +71,24 @@
           "expected": "https://store.google.com/gb/product/chromecast_google_tv"
         }
       ]
+    },
+    "facebook": {
+      "type": "keep_params",
+      "parameters": [
+        "id",
+        "story_fbid"
+      ],
+      "domain_regex": "(m\\.)?facebook.com",
+      "tests": [
+        {
+          "input": "https://www.facebook.com/reel/1242384407160280?sfnsn=scwspmo",
+          "expected": "https://www.facebook.com/reel/1242384407160280"
+        },
+        {
+          "input": "https://m.facebook.com/story.php?story_fbid=pfbid0HqS6zLZvNrQt6ACvjv3hKq6khpVse437nWSq2jBifKRD5sVH2XRLC3zz8aA7TKkWl&id=4&sfnsn=wiwspmo&mibextid=XzsMCV",
+          "expected": "https://m.facebook.com/story.php?story_fbid=pfbid0HqS6zLZvNrQt6ACvjv3hKq6khpVse437nWSq2jBifKRD5sVH2XRLC3zz8aA7TKkWl&id=4"
+        }
+      ]
     }
   }
 }

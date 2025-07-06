@@ -3,6 +3,7 @@ package mathilda.rule
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import mathilda.json.JsonRule
+import mathilda.rule.impl.KeepParamsRule
 import mathilda.rule.impl.RemoveParamsRule
 import mathilda.rule.impl.RemoveRegexRule
 import mathilda.rule.impl.TransformRule
@@ -13,6 +14,14 @@ internal object RuleFactory {
 
     private fun fromJsonRule(id: String, rule: JsonRule): Pair<Rule, Boolean> = (when (rule) {
         is JsonRule.JsonRemoveParamsRule -> RemoveParamsRule(
+            id = id,
+            domains = rule.domains.toImmutableList(),
+            domainRegex = rule.domainRegex?.toNullIfBlank(),
+            tests = rule.tests.map(),
+            parameters = rule.parameters.toImmutableList(),
+        )
+
+        is JsonRule.JsonKeepParamsRule -> KeepParamsRule(
             id = id,
             domains = rule.domains.toImmutableList(),
             domainRegex = rule.domainRegex?.toNullIfBlank(),
