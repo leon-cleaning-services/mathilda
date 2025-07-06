@@ -14,10 +14,6 @@ class RulesTest {
         val mathilda = builder(jsonStream).build()
 
         mathilda.rules.forEach { rule ->
-            if (rule.tests.isNotEmpty() && rule.tests[0].skip) {
-                return@forEach // Skip rules that are not applicable
-            }
-
             rule.tests.forEach { test ->
                 runTest {
                     val actual = rule(test.input)

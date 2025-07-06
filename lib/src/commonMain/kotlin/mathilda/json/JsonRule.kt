@@ -10,7 +10,6 @@ internal sealed interface JsonRule {
     data class Test(
         val input: String,
         val expected: String,
-        val skip: Boolean = false
     )
 
     /**
