@@ -34,7 +34,7 @@
     "amazon_product": {
       "type": "transform",
       "input": "((?:https?://)?(?:www\\.)?amazon\\.[^/]*).*/(?:dp?|gp/product)?/([^/?&]*)",
-      "output": "\\1/dp/\\2/",
+      "output": "{{1}}/dp/{{2}}/",
       "domain_regex": "amazon\\.[^/]*.*/(?:dp?|gp/product)?/[^/?&]*",
       "tests": [
         {
@@ -58,7 +58,7 @@
     "aol_search": {
       "type": "transform",
       "input": "RU=([^/&]+)",
-      "decode": true,
+      "output": "{{1:urldecode}}",
       "domains": [
         "search.aol.com"
       ],
@@ -210,7 +210,7 @@
     "geo_riot": {
       "type": "transform",
       "input": "GR_URL=([^&]+)",
-      "decode": true,
+      "output": "{{1:urldecode}}",
       "domain_regex": "target.georiot\\.[^/]+/Proxy.ashx",
       "tests": [
         {
@@ -249,7 +249,7 @@
     "google_search": {
       "type": "transform",
       "input": "(q|url)=([^&]+)",
-      "output": "\\2",
+      "output": "{{2:urldecode}}",
       "domain_regex": "google\\.[^/]+/url",
       "tests": [
         {
@@ -317,7 +317,7 @@
     "jdoqocy": {
       "type": "transform",
       "input": "url=([^/&]+)",
-      "decode": true,
+      "output": "{{1:urldecode}}",
       "domains": [
         "jdoqocy.com/click"
       ],
@@ -331,10 +331,9 @@
     "jodel": {
       "type": "transform",
       "input": "data=([^?&]+)",
-      "output": "https://share.jodel.com/post?postId=\\1",
+      "output": "{{1:urldecode:base64decode:jsonvalue($android_url)}}",
       "tests": [
         {
-          "skip": true,
           "input": "http://shared.jodel.com/a/key_live_abZZZZgPxyz82xxxxAAAAdefghi4YYY1?%24identity_id=123456789012345678&feature=shared_post&campaign=image_DE_FrontPage&type=0&duration=0&source=android&data=eyIkY2Fub25pY2FsX2lkZW50aWZpZXIiOiJzYWpcL2JhZGMwZmZlZWJhZGMwZmZlZTAxMjM0NSIsIiRwdWJsaWNseV9pbmRleGFibGUiOiJ0cnVlIiwicG9zdElkIjoiYmFkYzBmZmVlYmFkYzBmZmVlMDEyMzQ1IiwiJGRlc2t0b3BfdXJsIjoiaHR0cHM6XC9cL3NoYXJlLmpvZGVsLmNvbVwvcG9zdD9wb3N0SWQ9YmFkYzBmZmVlYmFkYzBmZmVlMDEyMzQ1IiwicmVmZXJyZXJfaWQiOiJhYmNkZWYwMTIzNDU2Nzg5ZGVhZGMwZGUiLCIkYW5kcm9pZF91cmwiOiJodHRwczpcL1wvc2hhcmUuam9kZWwuY29tXC9wb3N0P3Bvc3RJZD1iYWRjMGZmZWViYWRjMGZmZWUwMTIzNDUiLCIkaW9zX3VybCI6Imh0dHBzOlwvXC9zaGFyZS5qb2RlbC5jb21cL3Bvc3Q%2FcG9zdElkPWJhZGMwZmZlZWJhZGMwZmZlZTAxMjM0NSJ9?channel=copy",
           "expected": "https://share.jodel.com/post?postId=badc0ffeebadc0ffee012345"
         }
@@ -370,7 +369,7 @@
     "link_synergy": {
       "type": "transform",
       "input": "murl=([^&]+)",
-      "decode": true,
+      "output": "{{1:urldecode}}",
       "domain_regex": "(\\w+\\.)?linksynergy\\.\\w+/link",
       "tests": [
         {
@@ -420,7 +419,7 @@
     "new_egg": {
       "type": "transform",
       "input": "/p/([A-Z0-9]+)",
-      "output": "https://www.newegg.com/p/\\1",
+      "output": "https://www.newegg.com/p/{{1}}",
       "tests": [
         {
           "input": "https://www.newegg.com/black-acer-nitro-5-an515-57-59f7-gaming/p/N82E16834360174?Item=N82E16834360174",
@@ -461,7 +460,7 @@
     "reddit_mail": {
       "type": "transform",
       "input": "click\\.redditmail\\.com/[^/]+/([^?]+)%3F",
-      "decode": true,
+      "output": "{{1:urldecode}}",
       "domains": [
         "click.redditmail.com"
       ],
@@ -475,7 +474,7 @@
     "reddit_out": {
       "type": "transform",
       "input": "url=([^/&]+)",
-      "decode": true,
+      "output": "{{1:urldecode}}",
       "domains": [
         "out.reddit.com"
       ],
@@ -667,7 +666,7 @@
     "yahoo_redirect": {
       "type": "transform",
       "input": "RU=([^/&]+)",
-      "decode": true,
+      "output": "{{1:urldecode}}",
       "domains": [
         "r.search.yahoo.com"
       ],
@@ -681,7 +680,7 @@
     "yahoo_search": {
       "type": "transform",
       "input": "p=([^&]+)",
-      "output": "https://search.yahoo.com/search?p=\\1",
+      "output": "https://search.yahoo.com/search?p={{1}}",
       "domains": [
         "search.yahoo.com"
       ],
@@ -733,7 +732,7 @@
     "youtube_music": {
       "type": "transform",
       "input": "list=([A-Za-z0-9_\\-]+)",
-      "output": "https://youtube.com/playlist?list=\\1",
+      "output": "https://youtube.com/playlist?list={{1}}",
       "tests": [
         {
           "input": "https://music.youtube.com/playlist?list=RDCLAK5uy_mPolD_J22gS1SKxufARWcTZd1UrAH_0ZI",
@@ -744,7 +743,7 @@
     "youtube_redirect": {
       "type": "transform",
       "input": "q=([^&]+)",
-      "decode": true,
+      "output": "{{1:urldecode}}",
       "domains": [
         "youtube.com/redirect"
       ],
@@ -758,7 +757,7 @@
     "youtube_short_url": {
       "type": "transform",
       "input": "youtu.be/([A-Za-z0-9_-]+)",
-      "output": "https://www.youtube.com/watch?v=\\1",
+      "output": "https://www.youtube.com/watch?v={{1}}",
       "tests": [
         {
           "input": "https://youtu.be/5HaUOgW5BlA",
