@@ -13,7 +13,7 @@ class TransformRuleTest {
         val rule = TransformRule(
             id = "transform",
             input = "[?&]result=([^&#]*)",
-            decode = true,
+            output = "{{1:urldecode}}"
         )
 
         runTest {
@@ -33,12 +33,32 @@ class TransformRuleTest {
         val rule = TransformRule(
             id = "transform",
             input = "[?&]id=(.*?)&title=([^&#]*)",
-            output = "https://www.result.example?id=\\1&title=\\2"
+            output = "https://www.result.example?id={{1}}&title={{2}}"
         )
 
         runTest {
             val result =
                 rule("https://www.example.com?id=12345&title=HelloWorld")
+
+            assertIs<Rule.Result.Success>(result)
+            assertEquals(
+                "https://www.result.example?id=12345&title=HelloWorld",
+                result.value
+            )
+        }
+    }
+
+    @Test
+    fun shouldBase64Decode() {
+        val rule = TransformRule(
+            id = "transform",
+            input = "[?&]id=(.*?)&title=([^&#]*)",
+            output = "https://www.result.example?id={{1}}&title={{2:urldecode:base64decode}}",
+        )
+
+        runTest {
+            val result =
+                rule("https://www.example.com?id=12345&title=SGVsbG9Xb3JsZA%3D%3D")
 
             assertIs<Rule.Result.Success>(result)
             assertEquals(
