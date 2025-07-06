@@ -63,6 +63,18 @@ internal sealed interface JsonRule {
     ) : JsonRule
 
     @Serializable
+    @SerialName("keep_params")
+    data class JsonKeepParamsRule(
+        override val domains: List<String> = emptyList(),
+        @SerialName("domain_regex")
+        override val domainRegex: String? = null,
+        override val description: String? = null,
+        override val enabled: Boolean = true,
+        override val tests: List<Test> = emptyList(),
+        val parameters: List<String>,
+    ) : JsonRule
+
+    @Serializable
     @SerialName("remove_regex")
     data class JsonRemoveRegexRule(
         override val domains: List<String> = emptyList(),

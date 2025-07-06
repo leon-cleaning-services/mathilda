@@ -150,14 +150,14 @@
       ]
     },
     "facebook": {
-      "type": "remove_params",
+      "type": "keep_params",
       "parameters": [
-        "(id|story_fbid)"
+        "id",
+        "story_fbid"
       ],
       "domain_regex": "(m\\.)?facebook.com",
       "tests": [
         {
-          "skip": true,
           "input": "https://www.facebook.com/reel/1242384407160280?sfnsn=scwspmo",
           "expected": "https://www.facebook.com/reel/1242384407160280"
         },
