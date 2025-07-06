@@ -139,11 +139,10 @@
       ]
     },
     "empty_parameters": {
-      "type": "transform",
-      "input": "[?&][^=]+=(?=&|$)",
+      "type": "remove_regex",
+      "regex": "[?&][^=]+=(?=&|$)",
       "tests": [
         {
-          "skip": true,
           "input": "https://www.buch24.de/shopdirekt.cgi?sessionid=1650808921-319962258&id=13241297&p=3&sid=&static=0&nav=",
           "expected": "https://www.buch24.de/shopdirekt.cgi?sessionid=1650808921-319962258&id=13241297&p=3&static=0"
         }
@@ -372,11 +371,14 @@
       "type": "transform",
       "input": "murl=([^&]+)",
       "decode": true,
-      "domain_regex": "linksynergy\\.[^/]+/link",
+      "domain_regex": "(\\w+\\.)?linksynergy\\.\\w+/link",
       "tests": [
         {
-          "skip": true,
           "input": "https://click.linksynergy.com/link?id=kXQk6%2AivFEQ&offerid=1123623.20516002704&type=15&murl=https%3A%2F%2Fwww.newegg.com%2Fp%2F23B-001E-003S3%3Fitem%3D9SIAGREJ3S5851&u1=cbq-us-custom-tracking",
+          "expected": "https://www.newegg.com/p/23B-001E-003S3?item=9SIAGREJ3S5851"
+        },
+        {
+          "input": "https://linksynergy.com/link?id=kXQk6%2AivFEQ&offerid=1123623.20516002704&type=15&murl=https%3A%2F%2Fwww.newegg.com%2Fp%2F23B-001E-003S3%3Fitem%3D9SIAGREJ3S5851&u1=cbq-us-custom-tracking",
           "expected": "https://www.newegg.com/p/23B-001E-003S3?item=9SIAGREJ3S5851"
         }
       ]
@@ -697,24 +699,22 @@
       ]
     },
     "youtube": {
-      "type": "remove_params",
+      "type": "keep_params",
       "parameters": [
-        "*"
+        "v",
+        "t",
+        "list",
+        "search_query"
       ],
       "domain_regex": "(?:(?:(?:m(?:usic)?\\.)?youtube\\.com)|youtu\\.be)",
       "tests": [
         {
-          "skip": true,
-          "input": "https://m.youtube.com/watch?v=CvFH_6DNRCY&pp=ygUHZGVidXNzeQ%3D%3D",
-          "expected": "https://m.youtube.com/watch?v=CvFH_6DNRCY"
-        },
-        {
-          "input": "https://m.youtube.com/watch?v=CvFH_6DNRCY&t=125",
+          "input": "https://m.youtube.com/watch?v=CvFH_6DNRCY&t=125&pp=ygUHZGVidXNzeQ%3D%3D",
           "expected": "https://m.youtube.com/watch?v=CvFH_6DNRCY&t=125"
         },
         {
-          "input": "https://m.youtube.com/results?sp=mAEA&search_query=funnydogvideo",
-          "expected": "https://m.youtube.com/results&search_query=funny+dog+video"
+          "input": "https://m.youtube.com/results?sp=mAEA&search_query=funny+dog+video",
+          "expected": "https://m.youtube.com/results?search_query=funny+dog+video"
         },
         {
           "input": "https://youtube.com/playlist?list=PLkqz3S84Tw-QYEdfTLBzxJ1FAprtqeEpJ&si=2tDDmSKejG2GTtj5",
