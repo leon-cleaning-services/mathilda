@@ -1,18 +1,18 @@
 [versions]
-kotlin = "2.1.20"
-kotlinx-serializaton = "1.8.0"
-kotlinx-coroutines = "1.10.1"
+kotlin = "2.2.0"
+kotlinx-serializaton = "1.9.0"
+kotlinx-coroutines = "1.10.2"
 
 [libraries]
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serializaton" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
-kotlinx-collections-immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.8"
+kotlinx-collections-immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.4.0"
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-uri-kmp = "com.eygraber:uri-kmp:0.0.19"
+uri-kmp = "com.eygraber:uri-kmp:0.0.20"
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-android-library = { id = "com.android.library", version = "8.9.1" }
+android-library = { id = "com.android.library", version = "8.11.0" }
 test-logger = { id = "com.adarshr.test-logger", version = "4.0.0" }
