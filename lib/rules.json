@@ -285,6 +285,12 @@
       ],
       "domains": [
         "heise.de"
+      ],
+      "tests": [
+        {
+          "input": "https://www.heise.de/news/Boom-bei-Balkonkraftwerken-Bereits-mehr-als-300-000-in-Betrieb-9324094.html?wt_mc=rss.red.ho.ho.rdf.beitrag.beitrag",
+          "expected": "https://www.heise.de/news/Boom-bei-Balkonkraftwerken-Bereits-mehr-als-300-000-in-Betrieb-9324094.html"
+        }
       ]
     },
     "ikea": {
@@ -344,6 +350,9 @@
       "parameters": [
         "*"
       ],
+      "domains": [
+        "kogan.com"
+      ],
       "tests": [
         {
           "input": "https://www.kogan.com/au/buy/heybattery-samsung-galaxy-watch-7-44mm-bluetooth-l310-silver-ss-l310-sv/?ssid=201.bae7632c-5c90-46cf-a071-416f0879ecb5&click_id=VWDA74xN4CIffN9Rb_8l-46p",
@@ -384,14 +393,40 @@
     },
     "my_dealz_parameters": {
       "type": "remove_params",
+      "domains": [
+        "mydealz.de"
+      ],
       "parameters": [
         "*"
+      ],
+      "tests": [
+        {
+          "input": "https://www.mydealz.de/diskussion/gratis-adidas-fussball-trikot-2383743?pprmrkntfctnsrd=123456789&UATypeId=18",
+          "expected": "https://www.mydealz.de/diskussion/gratis-adidas-fussball-trikot-2383743"
+        }
       ]
     },
     "my_dealz_redirects": {
       "type": "transform",
-      "input": "\\1",
-      "output": "\\1"
+      "input": "(.*)/share-deal-from-app/(\\d+)",
+      "output": "{{1}}/deals/a-{{2}}",
+      "domains": [
+        "mydealz.de","www.mydealz.de", "preisjaeger.at"
+      ],
+      "tests": [
+        {
+          "input": "https://www.mydealz.de/share-deal-from-app/2117879",
+          "expected": "https://www.mydealz.de/deals/a-2117879"
+        },
+        {
+          "input": "https://mydealz.de/share-deal-from-app/2117879",
+          "expected": "https://mydealz.de/deals/a-2117879"
+        },
+        {
+          "input": "https://preisjaeger.at/share-deal-from-app/2117879",
+          "expected": "https://preisjaeger.at/deals/a-2117879"
+        }
+      ]
     },
     "netflix": {
       "type": "remove_params",
@@ -404,6 +439,10 @@
         "netflixsource*",
         "fromApp*",
         "trg"
+      ],
+      "domains": [
+        "netflix.com",
+        "help.netflix.com"
       ],
       "tests": [
         {
@@ -600,6 +639,9 @@
       "parameters": [
         "*"
       ],
+      "domains": [
+        "tiktok.com"
+      ],
       "tests": [
         {
           "input": "https://www.tiktok.com/@lihayk/video/7271645505522879751?is_from_webapp=1&sender_device=pc&web_id=7098566637619288452",
@@ -632,6 +674,7 @@
       "parameters": [
         "wprov"
       ],
+      "domain_regex": "(?:(?:en\\.)?wiki(m|p)edia\\.org)",
       "tests": [
         {
           "input": "https://en.wikipedia.org/wiki/Kerosene?wprov=sfla1",
@@ -644,6 +687,7 @@
       "parameters": [
         "*"
       ],
+      "domains":["x.com", "twitter.com"],
       "tests": [
         {
           "input": "https://twitter.com/AndroidDev/status/1453763770334027781?t=QEv2BUR2LOumjgK18S72bA&s=09",
@@ -692,9 +736,24 @@
       ]
     },
     "yandex": {
-      "type": "remove_params",
+      "type": "keep_params",
       "parameters": [
-        "*"
+        "text"
+      ],
+      "domains": [
+        "ya.ru",
+        "yandex.ru",
+        "yandex.com"
+      ],
+      "tests": [
+        {
+          "input": "https://yandex.com/search/?text=test&lr=103769&search_source=yacom_desktop_common",
+          "expected": "https://yandex.com/search/?text=test"
+        },
+        {
+          "input": "https://ya.ru/search/?text=test&lr=103769&search_source=yacom_desktop_common",
+          "expected": "https://ya.ru/search/?text=test"
+        }
       ]
     },
     "youtube": {
@@ -731,6 +790,7 @@
     },
     "youtube_music": {
       "type": "transform",
+      "domain_regex": "music\\.youtube\\.com",
       "input": "list=([A-Za-z0-9_\\-]+)",
       "output": "https://youtube.com/playlist?list={{1}}",
       "tests": [
@@ -756,6 +816,9 @@
     },
     "youtube_short_url": {
       "type": "transform",
+      "domains": [
+        "youtu.be"
+      ],
       "input": "youtu.be/([A-Za-z0-9_-]+)",
       "output": "https://www.youtube.com/watch?v={{1}}",
       "tests": [
